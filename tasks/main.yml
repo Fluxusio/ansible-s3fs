@@ -1,0 +1,37 @@
+---
+
+- name: Install build-essential
+  apt: name=build-essential state=present install_recommends=no update_cache=yes cache_valid_time=3600
+  sudo: yes
+
+- name: Install libfuse-dev
+  apt: name=libfuse-dev state=present install_recommends=no update_cache=yes cache_valid_time=3600
+  sudo: yes
+
+- name: Install libcurl4-openssl-dev
+  apt: name=libcurl4-openssl-dev state=present install_recommends=no update_cache=yes cache_valid_time=3600
+  sudo: yes
+
+- name: Install libxml2-dev
+  apt: name=libxml2-dev state=present install_recommends=no update_cache=yes cache_valid_time=3600
+  sudo: yes
+
+- name: Install mime-support
+  apt: name=mime-support state=present install_recommends=no update_cache=yes cache_valid_time=3600
+  sudo: yes
+
+- name: download source
+  get_url: url=https://github.com/s3fs-fuse/s3fs-fuse/archive/v1.78.tar.gz dest=/tmp/v1.78.tar.gz
+
+- name: extract source
+  shell: tar xvfz v1.78.tar.gz chdir=/tmp
+
+- name: run autogen.sh
+  shell: ./autogen.sh chdir=/tmp/s3fs-fuse-1.78
+
+- name: run configure
+  shell: ./configure chdir=/tmp/s3fs-fuse-1.78
+
+- name: run make install
+  shell: make install chdir=/tmp/s3fs-fuse-1.78
+  sudo: yes
